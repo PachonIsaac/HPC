@@ -129,27 +129,4 @@ typedef struct {
 } thread_data_t;
 ```
 
-## 📈 Resultados Esperados
-
-Para matrices grandes (N ≥ 1000):
-- **Speedup**: 2-4x con 4-8 hilos (dependiente del hardware)
-- **Eficiencia**: 60-80% en condiciones óptimas
-- **Escalabilidad**: Lineal hasta el número de cores físicos
-
-## 🎓 Propósito Académico
-
-Este proyecto forma parte del curso de **High Performance Computing** y demuestra:
-
-1. **Paralelización básica** con pthreads
-2. **Medición precisa** de rendimiento
-3. **Análisis de speedup** y eficiencia
-4. **Optimizaciones** para diferentes arquitecturas
-5. **Buenas prácticas** de programación en C
-
-## 📝 Licencia
-
-Proyecto académico - Curso HPC 2025
-
 ---
-
-**Desarrollado en macOS con Apple M2** 🚀
