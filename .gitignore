@@ -1,0 +1,36 @@
+# Ejecutables compilados
+matrix_mult
+matrix_mult_pthread
+matrix_mult_opt
+matrix_mult_pthread_opt
+matrix_mult_debug
+matrix_mult_pthread_debug
+*_debug
+*_opt
+
+# Archivos de objeto
+*.o
+*.obj
+
+# Archivos temporales
+*.tmp
+*.temp
+*~
+
+# Archivos del sistema macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Archivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Archivos de log
+*.log
