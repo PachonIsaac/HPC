@@ -2,12 +2,15 @@
 CC = gcc
 CFLAGS = -O3 -Wall -Wextra -std=c99
 PTHREAD_FLAGS = -pthread
+RT_FLAGS = -lrt
 TARGET = matrix_mult
 TARGET_PTHREAD = matrix_mult_pthread
 TARGET_PTHREAD_OPT = matrix_mult_pthread_opt
+TARGET_PROCESSES = matrix_mult_processes
 SOURCE = matrix_multiplication.c
 SOURCE_PTHREAD = matrix_multiplication_pthread.c
 SOURCE_PTHREAD_OPT = matrix_multiplication_pthread_optimized.c
+SOURCE_PROCESSES = matrix_multiplication_processes.c
 
 # Regla principal - versión secuencial
 $(TARGET): $(SOURCE)
@@ -20,6 +23,10 @@ $(TARGET_PTHREAD): $(SOURCE_PTHREAD)
 # Regla para versión pthread optimizada
 $(TARGET_PTHREAD_OPT): $(SOURCE_PTHREAD_OPT)
 	$(CC) $(CFLAGS) $(PTHREAD_FLAGS) -o $(TARGET_PTHREAD_OPT) $(SOURCE_PTHREAD_OPT)
+
+# Regla para versión con procesos
+$(TARGET_PROCESSES): $(SOURCE_PROCESSES)
+	$(CC) $(CFLAGS) -o $(TARGET_PROCESSES) $(SOURCE_PROCESSES)
 
 # Regla para compilación con optimizaciones adicionales
 optimized: $(SOURCE)
@@ -55,6 +62,15 @@ test_pthread: $(TARGET_PTHREAD)
 	@echo "Matriz mediana (200x200) con 4 hilos:"
 	./$(TARGET_PTHREAD) 200 4 789 012
 
+# Regla para pruebas con procesos
+test_processes: $(TARGET_PROCESSES)
+	@echo "=== Pruebas con Procesos ==="
+	@echo "Matriz pequeña (50x50) con 2 procesos:"
+	./$(TARGET_PROCESSES) 50 2 123 456
+	@echo ""
+	@echo "Matriz mediana (200x200) con 4 procesos:"
+	./$(TARGET_PROCESSES) 200 4 789 012
+
 # Regla para benchmark con diferentes tamaños
 benchmark: $(TARGET)
 	@echo "=== Benchmark de rendimiento ==="
@@ -70,27 +86,25 @@ benchmark: $(TARGET)
 	@echo "Matriz 500x500:"
 	./$(TARGET) 500
 
-# Benchmark comparativo entre secuencial y paralelo
-benchmark_compare: $(TARGET) $(TARGET_PTHREAD)
-	@echo "=== Benchmark Comparativo: Secuencial vs Paralelo ==="
-	@echo "--- Matriz 100x100 ---"
-	@echo "Secuencial:"
-	./$(TARGET) 100 123 456
-	@echo "Paralelo (4 hilos):"
-	./$(TARGET_PTHREAD) 100 4 123 456
-	@echo ""
+# Benchmark comparativo entre todas las versiones
+benchmark_all: $(TARGET) $(TARGET_PTHREAD_OPT) $(TARGET_PROCESSES)
+	@echo "=== Benchmark Completo: Secuencial vs Hilos vs Procesos ==="
 	@echo "--- Matriz 500x500 ---"
 	@echo "Secuencial:"
 	./$(TARGET) 500 123 456
-	@echo "Paralelo (4 hilos):"
-	./$(TARGET_PTHREAD) 500 4 123 456
+	@echo ""
+	@echo "Hilos (4 hilos):"
+	./$(TARGET_PTHREAD_OPT) 500 4 123 456
+	@echo ""
+	@echo "Procesos (4 procesos):"
+	./$(TARGET_PROCESSES) 500 4 123 456
 
 # Limpiar archivos compilados
 clean:
 	rm -f $(TARGET) $(TARGET)_opt $(TARGET)_debug $(TARGET_PTHREAD) $(TARGET_PTHREAD)_opt $(TARGET_PTHREAD)_debug
 
 # Compilar todo
-all: $(TARGET) $(TARGET_PTHREAD) $(TARGET_PTHREAD_OPT)
+all: $(TARGET) $(TARGET_PTHREAD) $(TARGET_PTHREAD_OPT) $(TARGET_PROCESSES)
 
 # Ayuda
 help:
