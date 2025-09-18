@@ -14,6 +14,13 @@ double get_user_time() {
     return usage.ru_utime.tv_sec + usage.ru_utime.tv_usec / 1000000.0;
 }
 
+// Función para obtener tiempo de pared (wall clock) en segundos
+double get_wall_time() {
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    return tv.tv_sec + tv.tv_usec / 1000000.0;
+}
+
 // Estructura para pasar datos a cada hilo
 typedef struct {
     int **A;              // Matriz A
@@ -189,8 +196,8 @@ int verify_results(int **C_seq, int **C_par, int size) {
 int main(int argc, char *argv[]) {
     int size, num_threads;
     int seed_A, seed_B;
-    double start_time, end_time;
-    double sequential_time, parallel_time, speedup;
+    double start_user, end_user, start_wall, end_wall;
+    double seq_user_time, seq_wall_time, par_user_time, par_wall_time, speedup_wall;
     
     // Verificar argumentos de línea de comandos
     if (argc < 2 || argc > 5) {
@@ -261,29 +268,36 @@ int main(int argc, char *argv[]) {
     
     // === EJECUCIÓN SECUENCIAL ===
     printf("\n--- Ejecutando versión secuencial ---\n");
-    start_time = get_user_time();
+    start_user = get_user_time();
+    start_wall = get_wall_time();
     matrix_multiply_sequential(A, B, C_sequential, size);
-    end_time = get_user_time();
-    sequential_time = end_time - start_time;
-    
-    printf("Tiempo de usuario secuencial: %.6f segundos\n", sequential_time);
-    printf("GFLOPS secuencial: %.6f\n", (2.0 * size * size * size) / (sequential_time * 1e9));
+    end_user = get_user_time();
+    end_wall = get_wall_time();
+    seq_user_time = end_user - start_user;
+    seq_wall_time = end_wall - start_wall;
+    printf("Tiempo de usuario secuencial: %.6f segundos\n", seq_user_time);
+    printf("Tiempo de pared   secuencial: %.6f segundos\n", seq_wall_time);
+    printf("GFLOPS secuencial (pared): %.6f\n", (2.0 * size * size * size) / (seq_wall_time * 1e9));
     
     // === EJECUCIÓN PARALELA ===
     printf("\n--- Ejecutando versión paralela ---\n");
-    start_time = get_user_time();
+    start_user = get_user_time();
+    start_wall = get_wall_time();
     matrix_multiply_parallel(A, B, C_parallel, size, num_threads);
-    end_time = get_user_time();
-    parallel_time = end_time - start_time;
-    
-    printf("Tiempo de usuario paralelo: %.6f segundos\n", parallel_time);
-    printf("GFLOPS paralelo: %.6f\n", (2.0 * size * size * size) / (parallel_time * 1e9));
-    
-    // Calcular speedup
-    speedup = sequential_time / parallel_time;
-    printf("\n=== RESULTADOS ===\n");
-    printf("Speedup: %.2fx\n", speedup);
-    printf("Eficiencia: %.2f%% (%d hilos)\n", (speedup / num_threads) * 100, num_threads);
+    end_user = get_user_time();
+    end_wall = get_wall_time();
+    par_user_time = end_user - start_user;
+    par_wall_time = end_wall - start_wall;
+    printf("Tiempo de usuario paralelo: %.6f segundos\n", par_user_time);
+    printf("Tiempo de pared   paralelo: %.6f segundos\n", par_wall_time);
+    printf("GFLOPS paralelo (pared): %.6f\n", (2.0 * size * size * size) / (par_wall_time * 1e9));
+
+    // Calcular speedup y eficiencia usando tiempo de pared
+    speedup_wall = seq_wall_time / par_wall_time;
+    printf("\n=== RESULTADOS (basados en tiempo de pared) ===\n");
+    printf("Speedup (wall): %.2fx\n", speedup_wall);
+    printf("Eficiencia (wall): %.2f%% (%d hilos)\n", (speedup_wall / num_threads) * 100, num_threads);
+    printf("Ratio tiempo usuario paralelo / secuencial: %.2fx (esperado >1 cuando hilos)\n", par_user_time / seq_user_time);
     
     // Verificar que los resultados son correctos
     printf("\nVerificando resultados...\n");

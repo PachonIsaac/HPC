@@ -5,9 +5,11 @@ PTHREAD_FLAGS = -pthread
 TARGET = matrix_mult
 TARGET_PTHREAD = matrix_mult_pthread
 TARGET_PTHREAD_OPT = matrix_mult_pthread_opt
+TARGET_ALL = matrix_mult_all
 SOURCE = matrix_multiplication.c
 SOURCE_PTHREAD = matrix_multiplication_pthread.c
 SOURCE_PTHREAD_OPT = matrix_multiplication_pthread_optimized.c
+SOURCE_ALL = matrix_multiplication_all.c
 
 # Regla principal - versión secuencial
 $(TARGET): $(SOURCE)
@@ -20,6 +22,11 @@ $(TARGET_PTHREAD): $(SOURCE_PTHREAD)
 # Regla para versión pthread optimizada
 $(TARGET_PTHREAD_OPT): $(SOURCE_PTHREAD_OPT)
 	$(CC) $(CFLAGS) $(PTHREAD_FLAGS) -o $(TARGET_PTHREAD_OPT) $(SOURCE_PTHREAD_OPT)
+
+
+# Regla para versión comparativa (sec + pthread + procesos)
+$(TARGET_ALL): $(SOURCE_ALL)
+	$(CC) $(CFLAGS) $(PTHREAD_FLAGS) -o $(TARGET_ALL) $(SOURCE_ALL)
 
 # Regla para compilación con optimizaciones adicionales
 optimized: $(SOURCE)
@@ -87,16 +94,17 @@ benchmark_compare: $(TARGET) $(TARGET_PTHREAD)
 
 # Limpiar archivos compilados
 clean:
-	rm -f $(TARGET) $(TARGET)_opt $(TARGET)_debug $(TARGET_PTHREAD) $(TARGET_PTHREAD)_opt $(TARGET_PTHREAD)_debug
+	rm -f $(TARGET) $(TARGET)_opt $(TARGET)_debug $(TARGET_PTHREAD) $(TARGET_PTHREAD)_opt $(TARGET_PTHREAD)_debug $(TARGET_ALL)
 
 # Compilar todo
-all: $(TARGET) $(TARGET_PTHREAD) $(TARGET_PTHREAD_OPT)
+all: $(TARGET) $(TARGET_PTHREAD) $(TARGET_PTHREAD_OPT) $(TARGET_ALL)
 
 # Ayuda
 help:
 	@echo "Opciones disponibles:"
 	@echo "  make                    - Compilar versión secuencial"
 	@echo "  make matrix_mult_pthread - Compilar versión con pthreads"
+	@echo "  make matrix_mult_all      - Compilar ejecutable comparativo (sec + hilos + procesos)"
 	@echo "  make all                - Compilar ambas versiones"
 	@echo "  make optimized          - Compilar versión secuencial optimizada"
 	@echo "  make optimized_pthread  - Compilar versión pthread optimizada"
