@@ -7,10 +7,12 @@ TARGET = matrix_mult
 TARGET_PTHREAD = matrix_mult_pthread
 TARGET_PTHREAD_OPT = matrix_mult_pthread_opt
 TARGET_PROCESSES = matrix_mult_processes
+TARGET_ALL = matrix_mult_all
 SOURCE = matrix_multiplication.c
 SOURCE_PTHREAD = matrix_multiplication_pthread.c
 SOURCE_PTHREAD_OPT = matrix_multiplication_pthread_optimized.c
 SOURCE_PROCESSES = matrix_multiplication_processes.c
+SOURCE_ALL = matrix_multiplication_all.c
 
 # Regla principal - versión secuencial
 $(TARGET): $(SOURCE)
@@ -27,6 +29,10 @@ $(TARGET_PTHREAD_OPT): $(SOURCE_PTHREAD_OPT)
 # Regla para versión con procesos
 $(TARGET_PROCESSES): $(SOURCE_PROCESSES)
 	$(CC) $(CFLAGS) -o $(TARGET_PROCESSES) $(SOURCE_PROCESSES)
+
+# Regla para versión comparativa (sec + pthread + procesos)
+$(TARGET_ALL): $(SOURCE_ALL)
+	$(CC) $(CFLAGS) $(PTHREAD_FLAGS) -o $(TARGET_ALL) $(SOURCE_ALL)
 
 # Regla para compilación con optimizaciones adicionales
 optimized: $(SOURCE)
@@ -71,6 +77,12 @@ test_processes: $(TARGET_PROCESSES)
 	@echo "Matriz mediana (200x200) con 4 procesos:"
 	./$(TARGET_PROCESSES) 200 4 789 012
 
+# Regla para pruebas del ejecutable all-in-one
+test_all: $(TARGET_ALL)
+	@echo "=== Pruebas del ejecutable comparativo ==="
+	@echo "Matriz 100x100 con 4 trabajadores:"
+	./$(TARGET_ALL) 100 4 123 456
+
 # Regla para benchmark con diferentes tamaños
 benchmark: $(TARGET)
 	@echo "=== Benchmark de rendimiento ==="
@@ -87,7 +99,7 @@ benchmark: $(TARGET)
 	./$(TARGET) 500
 
 # Benchmark comparativo entre todas las versiones
-benchmark_all: $(TARGET) $(TARGET_PTHREAD_OPT) $(TARGET_PROCESSES)
+benchmark_all: $(TARGET) $(TARGET_PTHREAD_OPT) $(TARGET_PROCESSES) $(TARGET_ALL)
 	@echo "=== Benchmark Completo: Secuencial vs Hilos vs Procesos ==="
 	@echo "--- Matriz 500x500 ---"
 	@echo "Secuencial:"
@@ -98,29 +110,37 @@ benchmark_all: $(TARGET) $(TARGET_PTHREAD_OPT) $(TARGET_PROCESSES)
 	@echo ""
 	@echo "Procesos (4 procesos):"
 	./$(TARGET_PROCESSES) 500 4 123 456
+	@echo ""
+	@echo "Ejecutable comparativo (todos):"
+	./$(TARGET_ALL) 500 4 123 456
 
 # Limpiar archivos compilados
 clean:
-	rm -f $(TARGET) $(TARGET)_opt $(TARGET)_debug $(TARGET_PTHREAD) $(TARGET_PTHREAD)_opt $(TARGET_PTHREAD)_debug
+	rm -f $(TARGET) $(TARGET)_opt $(TARGET)_debug $(TARGET_PTHREAD) $(TARGET_PTHREAD)_opt $(TARGET_PTHREAD)_debug $(TARGET_ALL) $(TARGET_PROCESSES)
 
 # Compilar todo
-all: $(TARGET) $(TARGET_PTHREAD) $(TARGET_PTHREAD_OPT) $(TARGET_PROCESSES)
+all: $(TARGET) $(TARGET_PTHREAD) $(TARGET_PTHREAD_OPT) $(TARGET_PROCESSES) $(TARGET_ALL)
 
 # Ayuda
 help:
 	@echo "Opciones disponibles:"
 	@echo "  make                    - Compilar versión secuencial"
 	@echo "  make matrix_mult_pthread - Compilar versión con pthreads"
-	@echo "  make all                - Compilar ambas versiones"
+	@echo "  make matrix_mult_all      - Compilar ejecutable comparativo (sec + hilos + procesos)"
+	@echo "  make all                - Compilar todas las versiones"
 	@echo "  make optimized          - Compilar versión secuencial optimizada"
 	@echo "  make optimized_pthread  - Compilar versión pthread optimizada"
 	@echo "  make debug              - Compilar versión secuencial debug"
 	@echo "  make debug_pthread      - Compilar versión pthread debug"
 	@echo "  make test               - Ejecutar pruebas secuenciales"
 	@echo "  make test_pthread       - Ejecutar pruebas con pthreads"
+	@echo "  make test_processes     - Ejecutar pruebas con procesos"
+	@echo "  make test_all           - Ejecutar pruebas del ejecutable comparativo"
 	@echo "  make benchmark          - Ejecutar benchmark secuencial"
 	@echo "  make benchmark_compare  - Comparar secuencial vs paralelo"
+	@echo "  make benchmark_all      - Benchmark completo (todas las versiones)"
 	@echo "  make clean              - Limpiar archivos compilados"
 	@echo "  make help               - Mostrar esta ayuda"
 
-.PHONY: optimized optimized_pthread debug debug_pthread test test_pthread benchmark benchmark_compare clean all help
+.PHONY: optimized optimized_pthread debug debug_pthread test test_pthread test_processes test_all benchmark benchmark_compare benchmark_all clean all help
+
