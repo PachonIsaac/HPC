@@ -1,3 +1,5 @@
+# Carpeta de binarios y ejecutables del reto PI
+HPCReto1/bin/
 # Ejecutables compilados
 matrix_mult
 matrix_mult_pthread
