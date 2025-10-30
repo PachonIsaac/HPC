@@ -324,5 +324,3 @@ $$O = T_{parallel} - \frac{T_{serial}}{p}$$
 - **OpenMP comparable o mejor** que pthreads (menos overhead manual)
 
 ---
-
-**Próximos pasos**: Implementar las versiones OpenMP según el plan y validar con benchmarks.
