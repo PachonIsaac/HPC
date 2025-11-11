@@ -109,8 +109,8 @@ def plot_time_comparison(df, algorithm, output_dir):
     """Gráfica comparativa de tiempos de ejecución"""
     algo_data = df[df['Algorithm'] == algorithm]
     
-    # Tomar la configuración con más threads
-    max_threads_data = algo_data[algo_data['Threads'] == algo_data['Threads'].max()]
+    # Tomar la configuración con 8 threads
+    max_threads_data = algo_data[algo_data['Threads'] == 8]
     
     fig, ax = plt.subplots(figsize=(14, 8))
     
