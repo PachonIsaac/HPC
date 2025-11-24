@@ -1,0 +1,76 @@
+================================================================================
+MPI MATRIX MULTIPLICATION - BENCHMARK SUMMARY
+================================================================================
+
+OVERALL STATISTICS
+--------------------------------------------------------------------------------
+Total configurations: 27
+Runs per configuration: 10
+Implementations tested: nonblocking, rowwise, sequential
+Matrix sizes: 1200, 2400, 600
+Process counts: 2.0, 4.0, 6.0
+
+BEST SPEEDUP BY IMPLEMENTATION
+--------------------------------------------------------------------------------
+Nonblocking         : 1.54x ± 0.28 (size=1200, procs=6, n=10)
+Rowwise             : 3.15x ± 0.38 (size=1200, procs=6, n=10)
+Sequential          : 1.05x ± 0.01 (size=600, procs=6, n=10)
+
+BEST EFFICIENCY BY IMPLEMENTATION
+--------------------------------------------------------------------------------
+Nonblocking         : 50.0% (size=1200, procs=2, n=10)
+Rowwise             : 52.5% (size=1200, procs=6, n=10)
+Sequential          : 50.0% (size=1200, procs=2, n=10)
+
+DETAILED RESULTS BY MATRIX SIZE (Mean ± StdDev)
+--------------------------------------------------------------------------------
+
+1200x1200 Matrix:
+  Nonblocking
+    2 procs:  10.4021s ± 2.2764s  Speedup:  1.00x  Efficiency:  50.0%  (n=10 runs)
+    4 procs:  11.1949s ± 1.2452s  Speedup:  0.93x  Efficiency:  23.2%  (n=10 runs)
+    6 procs:   6.7452s ± 1.8762s  Speedup:  1.54x  Efficiency:  25.7%  (n=10 runs)
+  Rowwise
+    2 procs:  10.8368s ± 2.0088s  Speedup:  1.00x  Efficiency:  50.0%  (n=10 runs)
+    4 procs:   5.5420s ± 1.3491s  Speedup:  1.96x  Efficiency:  48.9%  (n=10 runs)
+    6 procs:   3.4379s ± 1.3043s  Speedup:  3.15x  Efficiency:  52.5%  (n=10 runs)
+  Sequential
+    2 procs:   4.8555s ± 0.3165s  Speedup:  1.00x  Efficiency:  50.0%  (n=10 runs)
+    4 procs:   4.8706s ± 0.3798s  Speedup:  1.00x  Efficiency:  24.9%  (n=10 runs)
+    6 procs:   5.0112s ± 0.4759s  Speedup:  0.97x  Efficiency:  16.1%  (n=10 runs)
+
+2400x2400 Matrix:
+  Nonblocking
+    2 procs: 109.9033s ± 0.7058s  Speedup:  1.00x  Efficiency:  50.0%  (n=10 runs)
+    4 procs: 110.1239s ± 0.7252s  Speedup:  1.00x  Efficiency:  24.9%  (n=10 runs)
+    6 procs:  73.7479s ± 0.5105s  Speedup:  1.49x  Efficiency:  24.8%  (n=10 runs)
+  Rowwise
+    2 procs: 110.9884s ± 0.5722s  Speedup:  1.00x  Efficiency:  50.0%  (n=10 runs)
+    4 procs:  55.7642s ± 0.4426s  Speedup:  1.99x  Efficiency:  49.8%  (n=10 runs)
+    6 procs:  37.4053s ± 0.1813s  Speedup:  2.97x  Efficiency:  49.5%  (n=10 runs)
+  Sequential
+    2 procs: 116.7399s ± 0.5728s  Speedup:  1.00x  Efficiency:  50.0%  (n=10 runs)
+    4 procs: 117.8874s ± 2.2543s  Speedup:  0.99x  Efficiency:  24.8%  (n=10 runs)
+    6 procs: 117.0877s ± 1.0348s  Speedup:  1.00x  Efficiency:  16.6%  (n=10 runs)
+
+600x600 Matrix:
+  Nonblocking
+    2 procs:   0.2042s ± 0.0418s  Speedup:  1.00x  Efficiency:  50.0%  (n=10 runs)
+    4 procs:   0.2517s ± 0.0335s  Speedup:  0.81x  Efficiency:  20.3%  (n=10 runs)
+    6 procs:   0.1889s ± 0.0312s  Speedup:  1.08x  Efficiency:  18.0%  (n=10 runs)
+  Rowwise
+    2 procs:   0.2201s ± 0.0559s  Speedup:  1.00x  Efficiency:  50.0%  (n=10 runs)
+    4 procs:   0.1647s ± 0.0260s  Speedup:  1.34x  Efficiency:  33.4%  (n=10 runs)
+    6 procs:   0.1236s ± 0.0149s  Speedup:  1.78x  Efficiency:  29.7%  (n=10 runs)
+  Sequential
+    2 procs:   0.3463s ± 0.0320s  Speedup:  1.00x  Efficiency:  50.0%  (n=10 runs)
+    4 procs:   0.3666s ± 0.0935s  Speedup:  0.94x  Efficiency:  23.6%  (n=10 runs)
+    6 procs:   0.3292s ± 0.0019s  Speedup:  1.05x  Efficiency:  17.5%  (n=10 runs)
+
+VARIABILITY ANALYSIS
+--------------------------------------------------------------------------------
+Average coefficient of variation: 11.53%
+Max coefficient of variation: 37.94%
+Min coefficient of variation: 0.48%
+
+================================================================================

@@ -1,0 +1,9 @@
+# hostfile para MPI
+# Define los nodos disponibles y cuántos procesos pueden ejecutar
+
+# Nodo maestro (head node)
+172.31.28.209 slots=2
+
+# Workers
+172.31.18.36 slots=2
+172.31.16.182 slots=2
