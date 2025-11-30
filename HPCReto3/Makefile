@@ -19,8 +19,8 @@ MPI_NONBLOCKING = $(BIN_DIR)/ca_mpi_nonblocking
 MPI_MASTER_WORKER = $(BIN_DIR)/ca_mpi_master_worker
 
 # All targets
-ALL_TARGETS = $(SERIAL)
-# When MPI versions are ready, add:
+ALL_TARGETS = $(SERIAL) $(MPI_BLOCKING)
+# When more MPI versions are ready, add:
 # ALL_TARGETS = $(SERIAL) $(MPI_BLOCKING) $(MPI_NONBLOCKING) $(MPI_MASTER_WORKER)
 
 # Default target
