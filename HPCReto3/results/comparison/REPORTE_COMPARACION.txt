@@ -1,0 +1,49 @@
+================================================================================
+REPORTE COMPARATIVO: LOCAL vs CLUSTER
+HPCReto3 - Autómata Celular con MPI
+================================================================================
+
+1. ESPECIFICACIONES DE HARDWARE
+--------------------------------------------------------------------------------
+
+Local (MacBook Air M1):
+  - CPU: Apple M1 (8 cores: 4 performance + 4 efficiency)
+  - RAM: 8GB/16GB Unified Memory
+  - OS: macOS
+  - MPI: OpenMPI 5.0.9 (Homebrew)
+  - Network: N/A (single node)
+
+Cluster (AWS t3.micro):
+  - CPU: 1 vCPU Intel Xeon (variable performance)
+  - RAM: 1GB
+  - OS: Ubuntu 24.04 LTS
+  - MPI: OpenMPI 4.1.6
+  - Network: AWS VPC (single node, localhost)
+
+2. PERFORMANCE SERIAL
+--------------------------------------------------------------------------------
+Tiempo promedio Local:   0.116039s
+Tiempo promedio Cluster: 0.530323s
+Ratio (Cluster/Local):   4.57x
+M1 es 4.57x más rápido que t3.micro
+
+3. PERFORMANCE PARALELO (MPI)
+--------------------------------------------------------------------------------
+
+MPI Blocking:
+  Local:   Speedup=3.408, Eficiencia=85.21%
+  Cluster: Speedup=2.006, Eficiencia=50.16%
+
+MPI Non-Blocking:
+  Local:   Speedup=3.970, Eficiencia=99.25%
+  Cluster: Speedup=2.134, Eficiencia=53.36%
+
+4. CONCLUSIONES
+--------------------------------------------------------------------------------
+• M1 tiene mejor performance absoluta (CPU más potente)
+• Cluster (t3.micro) limitado por 1 vCPU y 1GB RAM
+• Speedup similar en ambos entornos (MPI bien implementado)
+• Non-blocking muestra mejora sobre blocking en ambos entornos
+• Overhead de MPI más visible en cluster (recursos limitados)
+
+================================================================================

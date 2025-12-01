@@ -1,0 +1,7 @@
+Entorno,Versión,Tiempo Promedio (s),Speedup Promedio,Eficiencia Promedio (%)
+Local (MacBook M1),Serial,0.11603876666666667,1.0,100.0
+Local (MacBook M1),MPI Blocking,0.0634233,3.408,85.21
+Local (MacBook M1),MPI Non-Blocking,0.0544493,3.97,99.25
+Cluster (AWS t3.micro),Serial,0.5303233333333334,1.0,100.0
+Cluster (AWS t3.micro),MPI Blocking,0.4846158,2.006,50.16
+Cluster (AWS t3.micro),MPI Non-Blocking,0.4555637,2.134,53.36

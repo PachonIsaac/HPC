@@ -1,0 +1,4 @@
+version,P,speedup_mean,speedup_std,efficiency_mean,efficiency_std,time_mean,time_std
+mpi_blocking,4,2.006,,50.16,,0.4846158,
+mpi_nonblocking,4,2.134,,53.36,,0.4555637,
+serial,1,1.0,0.0,100.0,0.0,0.5303233333333334,0.43267134014899034
