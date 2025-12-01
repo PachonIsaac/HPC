@@ -1,0 +1,61 @@
+======================================================================
+REPORTE DE ANÁLISIS - HPCReto3: Autómata Celular con MPI
+======================================================================
+
+1. RESUMEN GENERAL
+----------------------------------------------------------------------
+Total de configuraciones analizadas: 25
+Versiones: mpi_blocking, mpi_nonblocking, serial
+Tamaños de problema (N): 100000, 200000, 400000, 500000, 600000, 800000, 1000000, 1200000
+Procesos (P): 1, 2, 4, 6
+Timesteps (T): 100, 1000
+
+2. MEJORES CONFIGURACIONES
+----------------------------------------------------------------------
+Top 5 Speedups:
+        version       N  P  speedup  efficiency
+mpi_nonblocking 1000000  4    3.970       99.25
+   mpi_blocking 1000000  4    3.408       85.21
+         serial  100000  1    1.000      100.00
+         serial  500000  1    1.000      100.00
+         serial 1000000  1    1.000      100.00
+
+Top 5 Eficiencias:
+        version       N  P  speedup  efficiency
+         serial  100000  1    1.000      100.00
+         serial  500000  1    1.000      100.00
+         serial 1000000  1    1.000      100.00
+mpi_nonblocking 1000000  4    3.970       99.25
+   mpi_blocking 1000000  4    3.408       85.21
+
+3. COMPARACIÓN BLOCKING vs NON-BLOCKING
+----------------------------------------------------------------------
+Speedup promedio Blocking:     3.408
+Speedup promedio Non-Blocking: 3.970
+Mejora en speedup:             16.49%
+
+Eficiencia promedio Blocking:     85.21%
+Eficiencia promedio Non-Blocking: 99.25%
+Mejora en eficiencia:             14.04pp
+
+4. ANÁLISIS DE VARIABILIDAD
+----------------------------------------------------------------------
+⚠️  Configuraciones con alta variabilidad (CV > 5%):
+     version       N  P  time_cv
+mpi_blocking 1200000  4     5.35
+      serial  100000  1    26.87
+
+5. STRONG SCALING ANALYSIS
+----------------------------------------------------------------------
+
+MPI_BLOCKING:
+ P  speedup  efficiency  time_mean
+ 4    3.408       85.21   0.063423
+
+MPI_NONBLOCKING:
+ P  speedup  efficiency  time_mean
+ 4     3.97       99.25   0.054449
+
+======================================================================
+Fin del reporte
+======================================================================
